@@ -1,0 +1,71 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/alessandrasouza/Projects/FeedbackApp-WebAPI/FeedbackApp-WebAPI/FeedbackApp-WebAPI.csproj": {}
+  },
+  "projects": {
+    "/Users/alessandrasouza/Projects/FeedbackApp-WebAPI/FeedbackApp-WebAPI/FeedbackApp-WebAPI.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/alessandrasouza/Projects/FeedbackApp-WebAPI/FeedbackApp-WebAPI/FeedbackApp-WebAPI.csproj",
+        "projectName": "FeedbackApp-WebAPI",
+        "projectPath": "/Users/alessandrasouza/Projects/FeedbackApp-WebAPI/FeedbackApp-WebAPI/FeedbackApp-WebAPI.csproj",
+        "packagesPath": "/Users/alessandrasouza/.nuget/packages/",
+        "outputPath": "/Users/alessandrasouza/Projects/FeedbackApp-WebAPI/FeedbackApp-WebAPI/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/alessandrasouza/.config/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.0": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.0": {
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.3, )"
+            },
+            "sqlite-net-pcl": {
+              "target": "Package",
+              "version": "[1.6.292, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.0.100/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
