@@ -8,7 +8,7 @@ namespace FeedbackApp_WebAPI.Controllers
     public class EvaluationController : Controller
     {
         [HttpGet("{pin}")]
-        public IActionResult Get(string pin)
+        public IActionResult GetEvaluation(string pin)
         {
             System.Console.WriteLine("Get PIN");
             try
@@ -23,13 +23,13 @@ namespace FeedbackApp_WebAPI.Controllers
             }
         }
 
-        [HttpGet]
-        public IActionResult Get()
+        [HttpPost("{history}")]
+        public IActionResult PostHistory([FromBody]User user)
         {
-            System.Console.WriteLine("Get All");
+            System.Console.WriteLine("Get History");
             try
             {
-                var result = SQLiteFunctions.SelectAllEvaluations();
+                var result = SQLiteFunctions.SelectHistoryEvaluations(user.Email);
                 return Ok(result);
             }
             catch (System.Exception ex)
@@ -40,7 +40,7 @@ namespace FeedbackApp_WebAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody]Evaluation evaluation)
+        public IActionResult PostEvaluation([FromBody]Evaluation evaluation)
         {
             System.Console.WriteLine("Post Evaluation");
             try
@@ -58,7 +58,7 @@ namespace FeedbackApp_WebAPI.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody]Evaluation evaluation)
+        public IActionResult PutEvaluation([FromBody]Evaluation evaluation)
         {
             System.Console.WriteLine("Put Evaluation");
             try

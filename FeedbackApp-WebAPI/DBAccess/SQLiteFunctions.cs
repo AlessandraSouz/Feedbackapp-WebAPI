@@ -41,9 +41,9 @@ namespace FeedbackApp_WebAPI.DBAccess
             }
         }
 
-        public static List<Evaluation> SelectAllEvaluations()
+        public static List<Evaluation> SelectHistoryEvaluations(string user_email)
         {
-            var resultDb = Connection.Table<EvaluationDB>().ToList();
+            var resultDb = Connection.Table<EvaluationDB>().Where(p => p.Prof_Email == user_email).ToList();
             if (resultDb != null)
             {
                 var result = new List<Evaluation>();

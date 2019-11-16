@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using SQLite;
 
 namespace FeedbackApp_WebAPI.Models
@@ -14,6 +13,7 @@ namespace FeedbackApp_WebAPI.Models
         private List<Question> pergunta;
         private decimal percentual;
         private string name;
+        private string prof_email;
 
         [PrimaryKey]
         public int Id { get => id; set => id = value; }
@@ -24,8 +24,7 @@ namespace FeedbackApp_WebAPI.Models
         public List<Question> Perguntas { get => pergunta; set => pergunta = value; }
         public decimal Percentual { get => percentual; set => percentual = value; }
         public string Name { get => name; set => name = value; }
-
-        private DateTime DataHoraPIN { get; set; }
+        public string Prof_Email { get => prof_email; set => prof_email = value; }
 
         public Evaluation(EvaluationDB evaluation)
         {
@@ -35,11 +34,11 @@ namespace FeedbackApp_WebAPI.Models
             Ies = evaluation.Ies;
             Curso = evaluation.Curso;
             Percentual = evaluation.Percentual;
-            DataHoraPIN = DateTime.Now;
             Name = evaluation.Name;
+            Prof_Email = evaluation.Prof_Email;
         }
 
-        public Evaluation(int id, string pin, string turma, string ies, string curso, List<Question> pergunta, decimal percentual, string name)
+        public Evaluation(int id, string pin, string turma, string ies, string curso, List<Question> pergunta, decimal percentual, string name, string prof_email)
         {
             Id = id;
             PIN = pin;
@@ -48,11 +47,11 @@ namespace FeedbackApp_WebAPI.Models
             Curso = curso;
             Perguntas = pergunta;
             Percentual = percentual;
-            DataHoraPIN = DateTime.Now;
             Name = name;
+            Prof_Email = prof_email;
         }
 
-        public Evaluation() : this(0, "", "", "", "", null, 0, "")
+        public Evaluation() : this(0, "", "", "", "", null, 0, "", "")
         {
         }
     }
