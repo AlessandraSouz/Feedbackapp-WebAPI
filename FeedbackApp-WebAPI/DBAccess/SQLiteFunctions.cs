@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using FeedbackApp_WebAPI.Models;
 using SQLite;
 
@@ -93,6 +95,38 @@ namespace FeedbackApp_WebAPI.DBAccess
                 "Excelente" => 100,
                 _ => 0,
             };
+        }
+
+        public static Dictionary<string, string> RecoverPassword(string email)
+        {
+            var result = new Dictionary<string, string>();
+            var pin = GerarPIN();
+            result.Add(email, pin);
+            SendRecoveryEmail(email, pin);
+            return result;
+        }
+
+        public static string GerarPIN()
+        {
+            Random rd = new Random();
+            int pin = rd.Next(0, 999999);
+            var result = pin.ToString().PadLeft(6, '0');
+            return result;
+        }
+
+        public static void SendRecoveryEmail(string email, string pin)
+        {
+            MailMessage mail = new MailMessage { From = new MailAddress("salaabertauna@gmail.com", "App Sala Aberta") };
+            mail.To.Add(new MailAddress(email));
+            mail.Subject = "Recuperação de senha - Sala Aberta";
+            mail.Body = $"Olá, você solicitou a recuperação de senha para seu email. Insira este PIN na tela do aplicativo para prosseguir. PIN: {pin}";
+
+            using (SmtpClient client = new SmtpClient("smtp.gmail.com", 587))
+            {
+                client.Credentials = new NetworkCredential("salaabertauna@gmail.com", "al784512");
+                client.EnableSsl = true;
+                client.Send(mail);
+            }
         }
     }
 }

@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/victorhr/Projects/Feedbackapp-WebAPI/FeedbackApp-WebAPI/FeedbackApp-WebAPI.csproj": {}
+    "/Users/alessandrasouza/Projects/FeedbackApp-WebAPI/FeedbackApp-WebAPI/FeedbackApp-WebAPI.csproj": {}
   },
   "projects": {
-    "/Users/victorhr/Projects/Feedbackapp-WebAPI/FeedbackApp-WebAPI/FeedbackApp-WebAPI.csproj": {
+    "/Users/alessandrasouza/Projects/FeedbackApp-WebAPI/FeedbackApp-WebAPI/FeedbackApp-WebAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/victorhr/Projects/Feedbackapp-WebAPI/FeedbackApp-WebAPI/FeedbackApp-WebAPI.csproj",
+        "projectUniqueName": "/Users/alessandrasouza/Projects/FeedbackApp-WebAPI/FeedbackApp-WebAPI/FeedbackApp-WebAPI.csproj",
         "projectName": "FeedbackApp-WebAPI",
-        "projectPath": "/Users/victorhr/Projects/Feedbackapp-WebAPI/FeedbackApp-WebAPI/FeedbackApp-WebAPI.csproj",
-        "packagesPath": "/Users/victorhr/.nuget/packages/",
-        "outputPath": "/Users/victorhr/Projects/Feedbackapp-WebAPI/FeedbackApp-WebAPI/obj/",
+        "projectPath": "/Users/alessandrasouza/Projects/FeedbackApp-WebAPI/FeedbackApp-WebAPI/FeedbackApp-WebAPI.csproj",
+        "packagesPath": "/Users/alessandrasouza/.nuget/packages/",
+        "outputPath": "/Users/alessandrasouza/Projects/FeedbackApp-WebAPI/FeedbackApp-WebAPI/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/victorhr/.nuget/NuGet/NuGet.Config"
+          "/Users/alessandrasouza/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.0"
