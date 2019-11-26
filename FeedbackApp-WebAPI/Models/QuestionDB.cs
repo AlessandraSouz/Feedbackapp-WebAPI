@@ -1,43 +1,43 @@
-﻿using System.Collections.Generic;
-using SQLite;
+﻿using SQLite;
 
 namespace FeedbackApp_WebAPI.Models
 {
-    public class Question
+    public class QuestionDB
     {
         private int id;
         private string pergunta;
-        private List<string> feedbacks;
         private decimal badPercent;
         private decimal regularPercent;
         private decimal goodPercent;
         private decimal excellentPercent;
         private string pin;
+        private string nomeAluno;
 
         [PrimaryKey]
         public int Id { get => id; set => id = value; }
         public string Pergunta { get => pergunta; set => pergunta = value; }
-        public List<string> Feedbacks { get => feedbacks; set => feedbacks = value; }
         public string PIN { get => pin; set => pin = value; }
+        public string NomeAluno { get => nomeAluno; set => nomeAluno = value; }
 
         public decimal BadPercent { get => badPercent; set => badPercent = value; }
         public decimal RegularPercent { get => regularPercent; set => regularPercent = value; }
         public decimal GoodPercent { get => goodPercent; set => goodPercent = value; }
         public decimal ExcellentPercent { get => excellentPercent; set => excellentPercent = value; }
 
-        public Question(int id, string pergunta, List<string> feedbacks, string pin)
+        public QuestionDB(int id, string pergunta, string pin, string nomeAluno)
         {
             Id = id;
             Pergunta = pergunta;
-            Feedbacks = feedbacks;
             PIN = pin;
+            NomeAluno = nomeAluno;
         }
 
-        public Question(QuestionDB question)
+        public QuestionDB(Question question)
         {
             Id = question.Id;
             Pergunta = question.Pergunta;
             PIN = question.PIN;
+            NomeAluno = nomeAluno;
 
             BadPercent = question.BadPercent;
             RegularPercent = question.RegularPercent;
@@ -45,7 +45,7 @@ namespace FeedbackApp_WebAPI.Models
             ExcellentPercent = question.ExcellentPercent;
         }
 
-        public Question() : this(0, "", null, "")
+        public QuestionDB() : this(0, "", "", "")
         {
         }
     }

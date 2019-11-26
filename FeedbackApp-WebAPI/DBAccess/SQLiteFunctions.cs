@@ -25,7 +25,9 @@ namespace FeedbackApp_WebAPI.DBAccess
 
             Connection = new SQLiteConnection(dbPath);
             Connection.CreateTable<EvaluationDB>(CreateFlags.AutoIncPK);
-            Connection.CreateTable<Question>(CreateFlags.AutoIncPK);
+            Connection.CreateTable<QuestionDB>(CreateFlags.AutoIncPK);
+            Connection.CreateTable<FeedbackDB>(CreateFlags.AutoIncPK);
+            Connection.CreateTable<NomesAlunosDB>(CreateFlags.AutoIncPK);
         }
 
         public static Evaluation SelectEvaluation(string pin)
@@ -34,7 +36,7 @@ namespace FeedbackApp_WebAPI.DBAccess
             if (resultDb != null)
             {
                 var result = new Evaluation(resultDb);
-                result.Perguntas = Connection.Table<Question>().ToList().Where(p => p.PIN == pin).ToList();
+                result.Perguntas = GetQuestions(Connection.Table<QuestionDB>().ToList().Where(p => p.PIN == pin).ToList());
                 return result;
             }
             else
@@ -50,7 +52,14 @@ namespace FeedbackApp_WebAPI.DBAccess
             {
                 var result = new List<Evaluation>();
                 resultDb.ForEach(p => result.Add(new Evaluation(p)));
-                result.ForEach(p => p.Perguntas = Connection.Table<Question>().ToList().Where(q => q.PIN == p.PIN).ToList());
+                result.ForEach(p => p.Perguntas = GetQuestions(Connection.Table<QuestionDB>().ToList().Where(q => q.PIN == p.PIN).ToList()));
+                result.ForEach(p => p.Perguntas
+                .ForEach(q => (q.Feedbacks = new List<string>())
+                .AddRange(Connection.Table<FeedbackDB>().ToList()
+                .Where(r => r.QuestionId == q.Id).Select(s => s.Feedback))));
+                result.ForEach(p => (p.NomesAlunos = new List<string>())
+                .AddRange(Connection.Table<NomesAlunosDB>().Where(q => q.PIN == p.PIN).Select(r => r.NomeAluno)));
+
                 return result;
             }
             else
@@ -64,37 +73,46 @@ namespace FeedbackApp_WebAPI.DBAccess
             var evaluationDb = new EvaluationDB(evaluation);
             var questions = evaluation.Perguntas;
             questions.ForEach(p => p.PIN = evaluation.PIN);
-            Connection.InsertAll(questions);
+            var questionsDB = GetQuestionsDB(questions);
+            Connection.InsertAll(questionsDB);
             return Connection.Insert(evaluationDb);
         }
 
         public static int UpdateEvaluation(Evaluation evaluation)
         {
-            var evaluationDb = new EvaluationDB(evaluation);
-            Connection.UpdateAll(evaluation.Perguntas);
-            evaluationDb.Percentual = CalcularPercentual(evaluation.Perguntas);
-            return Connection.Update(evaluationDb);
+            var feedback = new FeedbackDB();
+
+            evaluation.Perguntas.ForEach(p => feedback = new FeedbackDB(p.Id, p.Feedbacks.FirstOrDefault()));
+            Connection.Insert(new NomesAlunosDB(evaluation.PIN, evaluation.NomesAlunos.FirstOrDefault()));
+            Connection.Table<>
+
+            evaluation.Perguntas.ForEach(p => p.BadPercent = GetPercent(p.Feedbacks.Count, p.Feedbacks.Where(q => q == "Ruim").Count()));
+            evaluation.Perguntas.ForEach(p => p.RegularPercent = GetPercent(p.Feedbacks.Count, p.Feedbacks.Where(q => q == "Regular").Count()));
+            evaluation.Perguntas.ForEach(p => p.GoodPercent = GetPercent(p.Feedbacks.Count, p.Feedbacks.Where(q => q == "Bom").Count()));
+            evaluation.Perguntas.ForEach(p => p.ExcellentPercent = GetPercent(p.Feedbacks.Count, p.Feedbacks.Where(q => q == "Excelente").Count()));
+
+            var questions = GetQuestionsDB(evaluation.Perguntas);
+            Connection.UpdateAll(questions);
+            return Connection.Insert(feedback);
         }
 
-        public static decimal CalcularPercentual(List<Question> questions)
+        public static decimal GetPercent(int totalCount, int categCount)
         {
-            var soma = 0;
-            var qtde = questions.Count;
-
-            questions.ForEach(p => soma += ConverterFeedback(p.Feedback));
-            return soma / qtde;
+            return (categCount / totalCount) * 100;
         }
 
-        public static int ConverterFeedback(string feedback)
+        public static List<QuestionDB> GetQuestionsDB(List<Question> questions)
         {
-            return feedback switch
-            {
-                "Ruim" => 25,
-                "Regular" => 50,
-                "Bom" => 75,
-                "Excelente" => 100,
-                _ => 0,
-            };
+            List<QuestionDB> result = new List<QuestionDB>();
+            questions.ForEach(p => result.Add(new QuestionDB(p)));
+            return result;
+        }
+
+        public static List<Question> GetQuestions(List<QuestionDB> questions)
+        {
+            List<Question> result = new List<Question>();
+            questions.ForEach(p => result.Add(new Question(p)));
+            return result;
         }
 
         public static Dictionary<string, string> RecoverPassword(string email)

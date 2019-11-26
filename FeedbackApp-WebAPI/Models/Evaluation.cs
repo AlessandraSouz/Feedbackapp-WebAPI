@@ -11,9 +11,8 @@ namespace FeedbackApp_WebAPI.Models
         private string ies;
         private string curso;
         private List<Question> pergunta;
-        private decimal percentual;
-        private string name;
         private string prof_email;
+        private List<string> nomesAlunos;
 
         [PrimaryKey]
         public int Id { get => id; set => id = value; }
@@ -22,9 +21,8 @@ namespace FeedbackApp_WebAPI.Models
         public string Ies { get => ies; set => ies = value; }
         public string Curso { get => curso; set => curso = value; }
         public List<Question> Perguntas { get => pergunta; set => pergunta = value; }
-        public decimal Percentual { get => percentual; set => percentual = value; }
-        public string Name { get => name; set => name = value; }
         public string Prof_Email { get => prof_email; set => prof_email = value; }
+        public List<string> NomesAlunos { get => nomesAlunos; set => nomesAlunos = value; }
 
         public Evaluation(EvaluationDB evaluation)
         {
@@ -33,12 +31,10 @@ namespace FeedbackApp_WebAPI.Models
             Turma = evaluation.Turma;
             Ies = evaluation.Ies;
             Curso = evaluation.Curso;
-            Percentual = evaluation.Percentual;
-            Name = evaluation.Name;
             Prof_Email = evaluation.Prof_Email;
         }
 
-        public Evaluation(int id, string pin, string turma, string ies, string curso, List<Question> pergunta, decimal percentual, string name, string prof_email)
+        public Evaluation(int id, string pin, string turma, string ies, string curso, List<Question> pergunta, string prof_email, List<string> nomesAlunos)
         {
             Id = id;
             PIN = pin;
@@ -46,12 +42,11 @@ namespace FeedbackApp_WebAPI.Models
             Ies = ies;
             Curso = curso;
             Perguntas = pergunta;
-            Percentual = percentual;
-            Name = name;
             Prof_Email = prof_email;
+            NomesAlunos = nomesAlunos;
         }
 
-        public Evaluation() : this(0, "", "", "", "", null, 0, "", "")
+        public Evaluation() : this(0, "", "", "", "", null, "", null)
         {
         }
     }
