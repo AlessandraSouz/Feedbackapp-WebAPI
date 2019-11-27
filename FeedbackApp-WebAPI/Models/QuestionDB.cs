@@ -6,10 +6,10 @@ namespace FeedbackApp_WebAPI.Models
     {
         private int id;
         private string pergunta;
-        private decimal badPercent;
-        private decimal regularPercent;
-        private decimal goodPercent;
-        private decimal excellentPercent;
+        private int badCount;
+        private int regularCount;
+        private int goodCount;
+        private int excellentCount;
         private string pin;
         private string nomeAluno;
 
@@ -19,10 +19,10 @@ namespace FeedbackApp_WebAPI.Models
         public string PIN { get => pin; set => pin = value; }
         public string NomeAluno { get => nomeAluno; set => nomeAluno = value; }
 
-        public decimal BadPercent { get => badPercent; set => badPercent = value; }
-        public decimal RegularPercent { get => regularPercent; set => regularPercent = value; }
-        public decimal GoodPercent { get => goodPercent; set => goodPercent = value; }
-        public decimal ExcellentPercent { get => excellentPercent; set => excellentPercent = value; }
+        public int BadCount { get => badCount; set => badCount = value; }
+        public int RegularCount { get => regularCount; set => regularCount = value; }
+        public int GoodCount { get => goodCount; set => goodCount = value; }
+        public int ExcellentCount { get => excellentCount; set => excellentCount = value; }
 
         public QuestionDB(int id, string pergunta, string pin, string nomeAluno)
         {
@@ -39,10 +39,10 @@ namespace FeedbackApp_WebAPI.Models
             PIN = question.PIN;
             NomeAluno = nomeAluno;
 
-            BadPercent = question.BadPercent;
-            RegularPercent = question.RegularPercent;
-            GoodPercent = question.GoodPercent;
-            ExcellentPercent = question.ExcellentPercent;
+            BadCount = question.BadCount;
+            RegularCount = question.RegularCount;
+            GoodCount = question.GoodCount;
+            ExcellentCount = question.ExcellentCount;
         }
 
         public QuestionDB() : this(0, "", "", "")

@@ -80,25 +80,33 @@ namespace FeedbackApp_WebAPI.DBAccess
 
         public static int UpdateEvaluation(Evaluation evaluation)
         {
-            var feedback = new FeedbackDB();
+            var feedbacks = new List<FeedbackDB>();
 
-            evaluation.Perguntas.ForEach(p => feedback = new FeedbackDB(p.Id, p.Feedbacks.FirstOrDefault()));
+            evaluation.Perguntas.ForEach(p => feedbacks.Add(new FeedbackDB(p.Id, p.Feedbacks.FirstOrDefault())));
+            Connection.InsertAll(feedbacks);
             Connection.Insert(new NomesAlunosDB(evaluation.PIN, evaluation.NomesAlunos.FirstOrDefault()));
-            Connection.Table<>
 
-            evaluation.Perguntas.ForEach(p => p.BadPercent = GetPercent(p.Feedbacks.Count, p.Feedbacks.Where(q => q == "Ruim").Count()));
-            evaluation.Perguntas.ForEach(p => p.RegularPercent = GetPercent(p.Feedbacks.Count, p.Feedbacks.Where(q => q == "Regular").Count()));
-            evaluation.Perguntas.ForEach(p => p.GoodPercent = GetPercent(p.Feedbacks.Count, p.Feedbacks.Where(q => q == "Bom").Count()));
-            evaluation.Perguntas.ForEach(p => p.ExcellentPercent = GetPercent(p.Feedbacks.Count, p.Feedbacks.Where(q => q == "Excelente").Count()));
+            evaluation.Perguntas.ForEach(p =>
+            p.BadCount = Connection.Table<FeedbackDB>().Where(q => q.QuestionId == p.Id && q.Feedback == "Ruim").Count());
+            evaluation.Perguntas.ForEach(p =>
+            p.RegularCount = Connection.Table<FeedbackDB>().Where(q => q.QuestionId == p.Id && q.Feedback == "Regular").Count());
+            evaluation.Perguntas.ForEach(p =>
+            p.GoodCount = Connection.Table<FeedbackDB>().Where(q => q.QuestionId == p.Id && q.Feedback == "Bom").Count());
+            evaluation.Perguntas.ForEach(p =>
+            p.ExcellentCount = Connection.Table<FeedbackDB>().Where(q => q.QuestionId == p.Id && q.Feedback == "Excelente").Count());
 
             var questions = GetQuestionsDB(evaluation.Perguntas);
-            Connection.UpdateAll(questions);
-            return Connection.Insert(feedback);
+            return Connection.UpdateAll(questions);
         }
 
-        public static decimal GetPercent(int totalCount, int categCount)
+        public static bool DeleteAllHistory()
         {
-            return (categCount / totalCount) * 100;
+            Connection.DeleteAll<EvaluationDB>();
+            Connection.DeleteAll<QuestionDB>();
+            Connection.DeleteAll<FeedbackDB>();
+            Connection.DeleteAll<NomesAlunosDB>();
+
+            return true;
         }
 
         public static List<QuestionDB> GetQuestionsDB(List<Question> questions)

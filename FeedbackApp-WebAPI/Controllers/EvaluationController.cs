@@ -74,5 +74,23 @@ namespace FeedbackApp_WebAPI.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet("delete")]
+        public IActionResult GetExcludeAllHistory()
+        {
+            System.Console.WriteLine("Exclude all evaluations");
+            try
+            {
+                if (SQLiteFunctions.DeleteAllHistory())
+                    return Ok("Histórico deletado com sucesso!");
+                else
+                    return BadRequest();
+            }
+            catch (System.Exception ex)
+            {
+                System.Console.WriteLine(ex.Message + "/r/nStackTrace:" + ex.StackTrace);
+                return BadRequest();
+            }
+        }
     }
 }
